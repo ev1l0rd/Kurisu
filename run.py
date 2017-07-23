@@ -4,26 +4,30 @@
 # license: Apache License 2.0
 # https://github.com/916253/Kurisu
 
+# import dependencies
+import asyncio
+import copy
+import configparser
+import datetime
+import imp
+import json
+import os
+import re
+import sys
+import traceback
+
 description = """
 Kurisu, the bot for the 3DS Hacking Discord!
 """
 
-# import dependencies
-import os
-from discord.ext import commands
-import discord
-import datetime
-import json, asyncio
-import copy
-import configparser
-import traceback
-import sys
-import os
-import re
-
 # sets working directory to bot's folder
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(dir_path)
+
+# to use the local discord.py which is the rewrite
+# this will be removed when the rewrite becomes the default
+discord = imp.load_source('discord', 'discord.py/discord/__init__.py')
+from discord.ext import commands
 
 # read config for token
 config = configparser.ConfigParser()
@@ -74,26 +78,34 @@ with open("data/watch.json", "r") as f:
 
 # http://stackoverflow.com/questions/3411771/multiple-character-replace-with-python
 chars = "\\`*_<>#@:~"
+
+
 def escape_name(name):
     name = str(name)
     for c in chars:
         if c in name:
             name = name.replace(c, "\\" + c)
     return name.replace("@", "@\u200b")  # prevent mentions
+
+
 bot.escape_name = escape_name
 
 bot.pruning = False  # used to disable leave logs if pruning, maybe.
+
 
 # mostly taken from https://github.com/Rapptz/discord.py/blob/async/discord/ext/commands/bot.py
 @bot.event
 async def on_command_error(error, ctx):
     if isinstance(error, commands.errors.CommandNotFound):
         pass  # ...don't need to know if commands don't exist
+
     if isinstance(error, commands.errors.CheckFailure):
         await bot.send_message(ctx.message.channel, "{} You don't have permission to use this command.".format(ctx.message.author.mention))
+
     elif isinstance(error, commands.errors.MissingRequiredArgument):
         formatter = commands.formatter.HelpFormatter()
         await bot.send_message(ctx.message.channel, "{} You are missing required arguments.\n{}".format(ctx.message.author.mention, formatter.format_help_for(ctx, ctx.command)[0]))
+
     elif isinstance(error, commands.errors.CommandOnCooldown):
         try:
             await bot.delete_message(ctx.message)
@@ -102,6 +114,7 @@ async def on_command_error(error, ctx):
         message = await bot.send_message(ctx.message.channel, "{} This command was used {:.2f}s ago and is on cooldown. Try again in {:.2f}s.".format(ctx.message.author.mention, error.cooldown.per - error.retry_after, error.retry_after))
         await asyncio.sleep(10)
         await bot.delete_message(message)
+
     else:
         await bot.send_message(ctx.message.channel, "An error occured while processing the `{}` command.".format(ctx.command.name))
         print('Ignoring exception in command {0.command} in {0.message.channel}'.format(ctx))
@@ -145,40 +158,40 @@ async def on_ready():
         print("{} has started! {} has {:,} members!".format(bot.user.name, server.name, server.member_count))
 
         # channels
-        bot.welcome_channel = discord.utils.get(server.channels, name="welcome-and-rules")
-        bot.announcements_channel = discord.utils.get(server.channels, name="announcements")
-        bot.helpers_channel = discord.utils.get(server.channels, name="helpers")
-        bot.offtopic_channel = discord.utils.get(server.channels, name="off-topic")
-        bot.meta_channel = discord.utils.get(server.channels, name="meta")
-        bot.voiceandmusic_channel = discord.utils.get(server.channels, name="voice-and-music")
-        bot.elsewhere_channel = discord.utils.get(server.channels, name="elsewhere")
-        bot.mods_channel = discord.utils.get(server.channels, name="mods")
-        bot.modlogs_channel = discord.utils.get(server.channels, name="mod-logs")
-        bot.serverlogs_channel = discord.utils.get(server.channels, name="server-logs")
-        bot.messagelogs_channel = discord.utils.get(server.channels, name="message-logs")
-        bot.watchlogs_channel = discord.utils.get(server.channels, name="watch-logs")
-        bot.botcmds_channel = discord.utils.get(server.channels, name="bot-cmds")
-        bot.boterr_channel = discord.utils.get(server.channels, name="bot-err")
+        bot.guild_channels['welcome']           = discord.utils.get(server.channels, name="welcome-and-rules")
+        bot.guild_channels['announcements']     = discord.utils.get(server.channels, name="announcements")
+        bot.guild_channels['helpers']           = discord.utils.get(server.channels, name="helpers")
+        bot.guild_channels['offtopic']          = discord.utils.get(server.channels, name="off-topic")
+        bot.guild_channels['meta']              = discord.utils.get(server.channels, name="meta")
+        bot.guild_channels['voiceandmusic']     = discord.utils.get(server.channels, name="voice-and-music")
+        bot.guild_channels['elsewhere']         = discord.utils.get(server.channels, name="elsewhere")
+        bot.guild_channels['mods']              = discord.utils.get(server.channels, name="mods")
+        bot.guild_channels['modlogs']           = discord.utils.get(server.channels, name="mod-logs")
+        bot.guild_channels['serverlogs']        = discord.utils.get(server.channels, name="server-logs")
+        bot.guild_channels['messagelogs']       = discord.utils.get(server.channels, name="message-logs")
+        bot.guild_channels['watchlogs']         = discord.utils.get(server.channels, name="watch-logs")
+        bot.guild_channels['botcmds']           = discord.utils.get(server.channels, name="bot-cmds")
+        bot.guild_channels['boterr']            = discord.utils.get(server.channels, name="bot-err")
 
         # roles
-        bot.staff_role = discord.utils.get(server.roles, name="Staff")
-        bot.halfop_role = discord.utils.get(server.roles, name="HalfOP")
-        bot.op_role = discord.utils.get(server.roles, name="OP")
-        bot.superop_role = discord.utils.get(server.roles, name="SuperOP")
-        bot.owner_role = discord.utils.get(server.roles, name="Owner")
-        bot.helpers_role = discord.utils.get(server.roles, name="Helpers")
-        bot.onduty3ds_role = discord.utils.get(server.roles, name="On-Duty 3DS")
-        bot.ondutywiiu_role = discord.utils.get(server.roles, name="On-Duty Wii U")
-        bot.verified_role = discord.utils.get(server.roles, name="Verified")
-        bot.trusted_role = discord.utils.get(server.roles, name="Trusted")
-        bot.probation_role = discord.utils.get(server.roles, name="Probation")
-        bot.muted_role = discord.utils.get(server.roles, name="Muted")
-        bot.nomemes_role = discord.utils.get(server.roles, name="No-Memes")
-        bot.nohelp_role = discord.utils.get(server.roles, name="No-Help")
-        bot.noembed_role = discord.utils.get(server.roles, name="No-Embed")
-        bot.elsewhere_role = discord.utils.get(server.roles, name="#elsewhere")
-        bot.eventchat_role = discord.utils.get(server.roles, name="#eventchat")
-        bot.everyone_role = server.default_role
+        bot.guild_roles['staff']                = discord.utils.get(server.roles, name="Staff")
+        bot.guild_roles['halfop']               = discord.utils.get(server.roles, name="HalfOP")
+        bot.guild_roles['op']                   = discord.utils.get(server.roles, name="OP")
+        bot.guild_roles['superop']              = discord.utils.get(server.roles, name="SuperOP")
+        bot.guild_roles['owner']                = discord.utils.get(server.roles, name="Owner")
+        bot.guild_roles['helpers']              = discord.utils.get(server.roles, name="Helpers")
+        bot.guild_roles['onduty3ds']            = discord.utils.get(server.roles, name="On-Duty 3DS")
+        bot.guild_roles['ondutywiiu']           = discord.utils.get(server.roles, name="On-Duty Wii U")
+        bot.guild_roles['verified']             = discord.utils.get(server.roles, name="Verified")
+        bot.guild_roles['trusted']              = discord.utils.get(server.roles, name="Trusted")
+        bot.guild_roles['probation']            = discord.utils.get(server.roles, name="Probation")
+        bot.guild_roles['muted']                = discord.utils.get(server.roles, name="Muted")
+        bot.guild_roles['nomemes']              = discord.utils.get(server.roles, name="No-Memes")
+        bot.guild_roles['nohelp']               = discord.utils.get(server.roles, name="No-Help")
+        bot.guild_roles['noembed']              = discord.utils.get(server.roles, name="No-Embed")
+        bot.guild_roles['elsewhere']            = discord.utils.get(server.roles, name="#elsewhere")
+        bot.guild_roles['eventchat']            = discord.utils.get(server.roles, name="#eventchat")
+        bot.guild_roles['everyone']             = server.default_role
 
         bot.staff_ranks = {
             "HalfOP": bot.halfop_role,
