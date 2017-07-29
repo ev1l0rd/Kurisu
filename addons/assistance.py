@@ -159,7 +159,7 @@ class Assistance:
     @commands.cooldown(rate=1, per=30.0, type=commands.BucketType.channel)
     async def inoriwarn(self):
         """Warns users to keep the channels on-topic - Staff & Helper Declaration Only"""
-        await self.simple_embed("> **Please keep the channels clean and on-topic, further derailing will be handled properly.  A staff or helper will be the quickest route to resolution, so find your nearest active member.** IE. List can be found in #welcome-and-rules if you don't know who they are.")
+        await self.simple_embed(" **Please keep the channels clean and on-topic, further derailing will result in intervention.  A staff or helper will be the quickest route to resolution; you can contact available staff by private messaging the Mod-mail bot.** A full list of staff and helpers can be found in #welcome-and-rules if you don't know who they are.")
 
     @commands.command()
     @commands.cooldown(rate=1, per=30.0, type=commands.BucketType.channel)
@@ -328,18 +328,6 @@ class Assistance:
         embed.set_thumbnail(url="https://i.imgur.com/rHa76XM.png")
         embed.url = "https://gbatemp.net/search/40920047/?q=injector&t=post&o=date&g=1&c[title_only]=1&c[user][0]=389539"
         embed.description = "The recommended way to play old classics on your 3DS"
-        await self.bot.say("", embed=embed)
-
-    # Embed to Themely guide
-    @commands.command()
-    @commands.cooldown(rate=1, per=30.0, type=commands.BucketType.channel)
-    async def themely(self):
-        """Link to Themely guide"""
-        embed = discord.Embed(title="Custom Themes for 3DS", color=discord.Color.purple())
-        embed.set_author(name="erman1337", url="https://3dsthem.es/how.php")
-        embed.set_thumbnail(url="https://i.imgur.com/79pD5y7.png")
-        embed.url = "https://3dsthem.es/how.php"
-        embed.description = "The recommended way to use custom themes"
         await self.bot.say("", embed=embed)
 
     # Embed to ih8ih8sn0w's godmode9 guide
