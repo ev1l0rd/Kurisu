@@ -84,7 +84,7 @@ class Assistance:
         embed = discord.Embed(title="NTR Streaming Guide", color=discord.Color.blue())
         embed.url = "https://gbatemp.net/threads/tutorial-3ds-screen-recording-without-a-capture-card-ntr-cfw-method.423445/"
         embed.description = "How to use NTR CFW with Nitro Stream to Wirelessly Stream"
-        embed.add_field(name="4 common fixes", value="• Are you connected to the Internet?\n• Is your antivirus program blocking the program?\n• Make sure you are not putting the port (:####) into the IP box of Nitro Stream.\n• Make sure you are on the latest preview for NTR 3.4.")
+        embed.add_field(name="4 common fixes", value="• Are you connected to the Internet?\n• Is your antivirus program blocking the program?\n• Make sure you are not putting the port (:####) into the IP box of Nitro Stream.\n• Make sure you are on the latest preview for NTR 3.6.")
         await self.bot.say("", embed=embed)
 
     @commands.command()
@@ -102,6 +102,17 @@ class Assistance:
         embed.set_thumbnail(url="https://3ds.guide/images/bio-photo.png")
         embed.url = "https://3ds.guide/updating-b9s"
         embed.description = "A guide for updating to new B9S versions."
+        await self.bot.say("", embed=embed)
+
+    @commands.command(aliases=["a9lhtob9s","updatea9lh"])
+    @commands.cooldown(rate=1, per=30.0, type=commands.BucketType.channel)
+    async def atob(self):
+        """Links to the guide for updating from a9lh to b9s"""
+        embed = discord.Embed(title="Upgrading a9lh to b9s", color=discord.Color(0xCE181E))
+        embed.set_author(name="Plailect", url="https://3ds.guide/a9lh-to-b9s")
+        embed.set_thumbnail(url="https://3ds.guide/images/bio-photo.png")
+        embed.url = "https://3ds.guide/a9lh-to-b9s"
+        embed.description = "A guide for upgrading your device from arm9loaderhax to boot9strap."
         await self.bot.say("", embed=embed)
 
     # Gateway h&s troubleshooting command
@@ -154,7 +165,7 @@ class Assistance:
     async def inoriquest(self):
         """Tells user to be descriptive"""
         await self.simple_embed("> Reminder: if you would like someone to help you, please be as descriptive as possible, of your situation, things you have done, as little as they may seem, aswell as assisting materials. Asking to ask wont expedite your process, and may delay assistance.")
-    
+
     @commands.command()
     @commands.cooldown(rate=1, per=30.0, type=commands.BucketType.channel)
     async def inoriwarn(self):
@@ -195,8 +206,8 @@ class Assistance:
     @commands.cooldown(rate=1, per=30.0, type=commands.BucketType.channel)
     async def stock114(self):
         """Advisory for consoles on stock 11.4+ firmware"""
-        embed = discord.Embed(title="Running stock (unmodified) 11.4 (or higher) firmware?", color=discord.Color.dark_orange())
-        embed.description = "If your 3DS is running stock 11.4+ firmware, you will need a [Hardmod boot9strap installation](https://3ds.guide/installing-boot9strap-\(hardmod\)) or perform a [dsiware exploit based boot9strap installlation](https://3ds.guide/installing-boot9strap-\(dsiware\)) (requires a hacked 3ds)"
+        embed = discord.Embed(title="Running stock (unmodified) 11.4+ firmware?", color=discord.Color.dark_orange())
+        embed.description = "If your 3DS is running stock 11.4+ firmware, you will need a [hardmod boot9strap installation](https://3ds.guide/installing-boot9strap-\(hardmod\)), a [DSiWare exploit based boot9strap installation](https://3ds.guide/installing-boot9strap-\(dsiware\)) (requires a hacked 3ds), or [NTRBoot](https://3ds.guide/installing-boot9strap-\(ntrboot\)) (requires a compatible flashcart and either a hacked 3DS; a [Datel Powersaves](https://3ds.guide/flashing-ntrboot-\(powersaves\)); or a [DS/DS Lite](https://3ds.guide/flashing-ntrboot-\(nds\)))"
         await self.bot.say("", embed=embed)
 
     @commands.command()
@@ -283,13 +294,13 @@ class Assistance:
     async def homext(self):
         """Deleting home menu extdata"""
         await self.simple_embed("1. Navigate to the following folder on your SD card: `/Nintendo 3DS/(32 Character ID)/(32 Character ID)/extdata/00000000/`\n2. Delete the corresponding folder for your region:\n  USA: `0000008f`\n   EUR: `00000098`\n   JPN: `00000082`\n   KOR: `000000A9`", title="How to clear Home Menu extdata")
-    
+
     @commands.command()
     @commands.cooldown(rate=1, per=30.0, type=commands.BucketType.channel)
     async def deltheme(self):
         """Deleting home menu theme data"""
         await self.simple_embed("1. Navigate to the following folder on your SD card: `/Nintendo 3DS/(32 Character ID)/(32 Character ID)/extdata/00000000/`\n2. Delete the corresponding folder for your region:\n  USA: `000002cd`\n   EUR: `000002ce`\n   JPN: `000002cc`", title="How to delete Home Menu Theme Data")
-        
+
     @commands.command(aliases=['godmode9'])
     async def gm9(self):
         """Links to the guide on GodMode9"""
