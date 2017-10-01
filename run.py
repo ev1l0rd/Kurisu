@@ -5,7 +5,7 @@
 # https://github.com/916253/Kurisu
 
 description = """
-Kurisu, the bot for the 3DS Hacking Discord!
+NotKurisu, a modding bot, forked from NH's Kurisu. This is not Kurisu!
 """
 
 # import dependencies
@@ -163,51 +163,51 @@ async def on_ready():
         print("{} has started! {} has {:,} members!".format(bot.user.name, server.name, server.member_count))
 
         # channels
-        bot.welcome_channel = discord.utils.get(server.channels, name="welcome-and-rules")
+        bot.welcome_channel = discord.utils.get(server.channels, name="welcome-rules")
         bot.announcements_channel = discord.utils.get(server.channels, name="announcements")
-        bot.helpers_channel = discord.utils.get(server.channels, name="helpers")
-        bot.offtopic_channel = discord.utils.get(server.channels, name="off-topic")
-        bot.meta_channel = discord.utils.get(server.channels, name="meta")
-        bot.voiceandmusic_channel = discord.utils.get(server.channels, name="voice-and-music")
-        bot.elsewhere_channel = discord.utils.get(server.channels, name="elsewhere")
-        bot.mods_channel = discord.utils.get(server.channels, name="mods")
+        bot.helpers_channel = discord.utils.get(server.channels, name="moderation")
+        #bot.offtopic_channel = discord.utils.get(server.channels, name="off-topic")
+        #bot.meta_channel = discord.utils.get(server.channels, name="meta")
+        #bot.voiceandmusic_channel = discord.utils.get(server.channels, name="voice-and-music")
+        #bot.elsewhere_channel = discord.utils.get(server.channels, name="elsewhere")
+        bot.mods_channel = discord.utils.get(server.channels, name="moderation")
         bot.modlogs_channel = discord.utils.get(server.channels, name="mod-logs")
         bot.serverlogs_channel = discord.utils.get(server.channels, name="server-logs")
         bot.messagelogs_channel = discord.utils.get(server.channels, name="message-logs")
         bot.watchlogs_channel = discord.utils.get(server.channels, name="watch-logs")
-        bot.botcmds_channel = discord.utils.get(server.channels, name="bot-cmds")
-        bot.boterr_channel = discord.utils.get(server.channels, name="bot-err")
+        #bot.botcmds_channel = discord.utils.get(server.channels, name="bot-cmds")
+        #bot.boterr_channel = discord.utils.get(server.channels, name="bot-err")
 
         # roles
-        bot.staff_role = discord.utils.get(server.roles, name="Staff")
-        bot.halfop_role = discord.utils.get(server.roles, name="HalfOP")
-        bot.op_role = discord.utils.get(server.roles, name="OP")
-        bot.superop_role = discord.utils.get(server.roles, name="SuperOP")
-        bot.owner_role = discord.utils.get(server.roles, name="Owner")
-        bot.helpers_role = discord.utils.get(server.roles, name="Helpers")
-        bot.onduty3ds_role = discord.utils.get(server.roles, name="On-Duty 3DS")
-        bot.ondutywiiu_role = discord.utils.get(server.roles, name="On-Duty Wii U")
-        bot.verified_role = discord.utils.get(server.roles, name="Verified")
-        bot.trusted_role = discord.utils.get(server.roles, name="Trusted")
-        bot.probation_role = discord.utils.get(server.roles, name="Probation")
-        bot.muted_role = discord.utils.get(server.roles, name="Muted")
-        bot.nomemes_role = discord.utils.get(server.roles, name="No-Memes")
-        bot.nohelp_role = discord.utils.get(server.roles, name="No-Help")
-        bot.noembed_role = discord.utils.get(server.roles, name="No-Embed")
-        bot.elsewhere_role = discord.utils.get(server.roles, name="#elsewhere")
-        bot.eventchat_role = discord.utils.get(server.roles, name="#eventchat")
+        bot.staff_role = discord.utils.get(server.roles, name="Moderator")
+        #bot.halfop_role = discord.utils.get(server.roles, name="HalfOP")
+        #bot.op_role = discord.utils.get(server.roles, name="OP")
+        #bot.superop_role = discord.utils.get(server.roles, name="SuperOP")
+        bot.owner_role = discord.utils.get(server.roles, name="Administrator")
+        bot.helpers_role = discord.utils.get(server.roles, name="Moderator")
+        #bot.onduty3ds_role = discord.utils.get(server.roles, name="On-Duty 3DS")
+        #bot.ondutywiiu_role = discord.utils.get(server.roles, name="On-Duty Wii U")
+        #bot.verified_role = discord.utils.get(server.roles, name="Verified")
+        #bot.trusted_role = discord.utils.get(server.roles, name="Trusted")
+        #bot.probation_role = discord.utils.get(server.roles, name="Probation")
+        #bot.muted_role = discord.utils.get(server.roles, name="Muted")
+        #bot.nomemes_role = discord.utils.get(server.roles, name="No-Memes")
+        #bot.nohelp_role = discord.utils.get(server.roles, name="No-Help")
+        #bot.noembed_role = discord.utils.get(server.roles, name="No-Embed")
+        #bot.elsewhere_role = discord.utils.get(server.roles, name="#elsewhere")
+        #bot.eventchat_role = discord.utils.get(server.roles, name="#eventchat")
         bot.everyone_role = server.default_role
 
         bot.staff_ranks = {
-            "HalfOP": bot.halfop_role,
-            "OP": bot.op_role,
-            "SuperOP": bot.superop_role,
+            #"HalfOP": bot.halfop_role,
+            #"OP": bot.op_role,
+            #"SuperOP": bot.superop_role,
             "Owner": bot.owner_role,
         }
 
         bot.helper_roles = {
-            "3DS": bot.onduty3ds_role,
-            "WiiU": bot.ondutywiiu_role,
+            #"3DS": bot.onduty3ds_role,
+            #"WiiU": bot.ondutywiiu_role,
         }
 
         # load timebans
